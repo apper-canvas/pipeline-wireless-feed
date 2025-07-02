@@ -7,13 +7,14 @@ function App() {
   return (
     <Router>
       <div className="min-h-screen bg-background font-body">
-        <Layout>
+<Layout>
           <Routes>
             <Route path="/" element={<Pipeline />} />
             <Route path="/pipeline" element={<Pipeline />} />
+            <Route path="/leads" element={<Pipeline />} />
           </Routes>
         </Layout>
-        <ToastContainer 
+        <ToastContainer
           position="top-right"
           autoClose={3000}
           hideProgressBar={false}
