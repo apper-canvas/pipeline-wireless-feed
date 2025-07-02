@@ -4,10 +4,10 @@ import Layout from '@/components/organisms/Layout'
 import Pipeline from '@/components/pages/Pipeline'
 
 function App() {
-  return (
+return (
     <Router>
       <div className="min-h-screen bg-background font-body">
-<Layout>
+        <Layout>
           <Routes>
             <Route path="/" element={<Pipeline />} />
             <Route path="/pipeline" element={<Pipeline />} />
