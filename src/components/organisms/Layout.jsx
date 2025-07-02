@@ -4,7 +4,7 @@ import ApperIcon from "@/components/ApperIcon";
 
 const Layout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-
+  const [taskSidebarOpen, setTaskSidebarOpen] = useState(false)
   const navigationItems = [
     { name: 'Pipeline', href: '/', icon: 'BarChart3', current: true },
     { name: 'Leads', href: '/leads', icon: 'Users', current: false },
@@ -92,6 +92,40 @@ const Layout = ({ children }) => {
         </div>
       </div>
 
+{/* Task Sidebar */}
+      {taskSidebarOpen && (
+        <div className="fixed inset-0 z-50 lg:z-30">
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-50 lg:hidden"
+            onClick={() => setTaskSidebarOpen(false)}
+          />
+          <motion.div 
+            initial={{ x: '100%' }}
+            animate={{ x: taskSidebarOpen ? 0 : '100%' }}
+            transition={{ type: 'tween', duration: 0.3 }}
+            className="fixed top-0 right-0 w-80 h-full bg-white shadow-xl z-50 lg:z-30"
+          >
+            <div className="h-full flex flex-col">
+              <div className="p-4 border-b border-gray-200">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-lg font-semibold text-gray-900">Upcoming Tasks</h2>
+                  <button
+                    onClick={() => setTaskSidebarOpen(false)}
+                    className="p-1 rounded-lg hover:bg-gray-100"
+                  >
+                    <ApperIcon name="X" className="h-5 w-5 text-gray-600" />
+                  </button>
+                </div>
+              </div>
+              <div className="flex-1 overflow-y-auto">
+                {/* Task content will be injected here */}
+                {React.cloneElement(children, { taskSidebarOpen, setTaskSidebarOpen })}
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
       {/* Main content */}
       <div className="lg:ml-64">
         {/* Mobile header */}
@@ -109,13 +143,28 @@ const Layout = ({ children }) => {
               </div>
               <span className="text-lg font-bold gradient-text font-display">Pipeline Pro</span>
             </div>
-            <div className="w-10"></div>
+            <button
+              onClick={() => setTaskSidebarOpen(true)}
+              className="p-2 rounded-lg hover:bg-gray-100 relative"
+            >
+              <ApperIcon name="CheckSquare" className="h-6 w-6 text-gray-600" />
+            </button>
           </div>
+        </div>
+
+        {/* Desktop task toggle */}
+        <div className="hidden lg:block fixed top-4 right-4 z-20">
+          <button
+            onClick={() => setTaskSidebarOpen(true)}
+            className="p-3 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow border border-gray-200"
+          >
+            <ApperIcon name="CheckSquare" className="h-6 w-6 text-gray-600" />
+          </button>
         </div>
 
         {/* Page content */}
         <main className="min-h-screen">
-          {children}
+          {React.cloneElement(children, { taskSidebarOpen, setTaskSidebarOpen })}
         </main>
       </div>
     </div>

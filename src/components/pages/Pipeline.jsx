@@ -1,19 +1,20 @@
-import { useState, useEffect } from 'react'
-import { toast } from 'react-toastify'
-import Header from '@/components/organisms/Header'
-import StatsOverview from '@/components/organisms/StatsOverview'
-import PipelineBoard from '@/components/organisms/PipelineBoard'
-import LeadModal from '@/components/organisms/LeadModal'
-import Loading from '@/components/ui/Loading'
-import Error from '@/components/ui/Error'
-import Empty from '@/components/ui/Empty'
-import * as leadService from '@/services/api/leadService'
-import * as activityService from '@/services/api/activityService'
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import Header from "@/components/organisms/Header";
+import LeadModal from "@/components/organisms/LeadModal";
+import PipelineBoard from "@/components/organisms/PipelineBoard";
+import StatsOverview from "@/components/organisms/StatsOverview";
+import Error from "@/components/ui/Error";
+import Empty from "@/components/ui/Empty";
+import Loading from "@/components/ui/Loading";
+import * as leadService from "@/services/api/leadService";
+import * as activityService from "@/services/api/activityService";
 
 const Pipeline = () => {
-  const [leads, setLeads] = useState([])
+const [leads, setLeads] = useState([])
   const [filteredLeads, setFilteredLeads] = useState([])
   const [activities, setActivities] = useState([])
+  const [tasks, setTasks] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
@@ -36,13 +37,15 @@ const Pipeline = () => {
       setLoading(true)
       setError('')
       
-      const [leadsData, activitiesData] = await Promise.all([
+const [leadsData, activitiesData, tasksData] = await Promise.all([
         leadService.getAll(),
-        activityService.getAll()
+        activityService.getAll(),
+        activityService.getAllTasks()
       ])
       
       setLeads(leadsData)
       setActivities(activitiesData)
+      setTasks(tasksData)
     } catch (err) {
       setError('Failed to load pipeline data. Please try again.')
       console.error('Error loading data:', err)
@@ -182,20 +185,54 @@ const Pipeline = () => {
     }
   }
 
-  const getLeadActivities = (leadId) => {
-    return activities
-      .filter(activity => activity.leadId === leadId)
-      .sort((a, b) => new Date(b.date) - new Date(a.date))
+const getLeadActivities = (leadId) => {
+  return activities
+    .filter(activity => activity.leadId === leadId)
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
+}
+  const handleCreateTask = async (taskData) => {
+    try {
+      const newTask = await activityService.createTask(taskData)
+      setTasks(prev => [...prev, newTask])
+      toast.success('Task created successfully')
+      return newTask
+    } catch (error) {
+      toast.error('Failed to create task')
+      throw error
+    }
   }
 
-  const handleRetry = () => {
-    loadData()
+  const handleCompleteTask = async (taskId) => {
+    try {
+      const updatedTask = await activityService.completeTask(taskId)
+      setTasks(prev => prev.map(task => 
+        task.Id === taskId ? updatedTask : task
+      ))
+      toast.success('Task marked as complete')
+    } catch (error) {
+      toast.error('Failed to complete task')
+    }
   }
 
-  if (loading) {
-    return <Loading />
+  const getLeadTasks = (leadId) => {
+    return tasks
+      .filter(task => task.leadId === leadId)
+      .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
   }
 
+  const getAllUpcomingTasks = () => {
+    return tasks
+      .filter(task => !task.completed)
+      .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
+  }
+
+const handleRetry = () => {
+  loadData()
+}
+
+if (loading) {
+  return <Loading />
+}
   if (error) {
     return <Error message={error} onRetry={handleRetry} />
   }
@@ -248,24 +285,31 @@ const Pipeline = () => {
             icon="Search"
           />
         ) : (
-          <PipelineBoard
+<PipelineBoard
             leads={filteredLeads}
             onLeadUpdate={handleLeadUpdate}
             onEditLead={handleEditLead}
             onDeleteLead={handleDeleteLead}
             onViewDetails={handleViewDetails}
+            tasks={tasks}
+            onCreateTask={handleCreateTask}
+            onCompleteTask={handleCompleteTask}
           />
         )}
       </div>
 
       <LeadModal
         isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
+onClose={() => setModalOpen(false)}
         lead={selectedLead}
         onSave={handleSaveLead}
         onDelete={handleDeleteLead}
         activities={selectedLead ? getLeadActivities(selectedLead.Id) : []}
         onAddActivity={handleAddActivity}
+        tasks={selectedLead ? getLeadTasks(selectedLead.Id) : []}
+        onCreateTask={handleCreateTask}
+        onCompleteTask={handleCompleteTask}
+        allTasks={getAllUpcomingTasks()}
       />
     </div>
   )
