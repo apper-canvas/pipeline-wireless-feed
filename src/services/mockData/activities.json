@@ -1,0 +1,122 @@
+[
+  {
+    "Id": 1,
+    "leadId": 1,
+    "type": "call",
+    "description": "Initial discovery call to understand requirements",
+    "date": "2024-01-20T14:15:00Z",
+    "duration": 30
+  },
+  {
+    "Id": 2,
+    "leadId": 1,
+    "type": "email",
+    "description": "Sent follow-up email with pricing information",
+    "date": "2024-01-20T16:30:00Z",
+    "duration": 0
+  },
+  {
+    "Id": 3,
+    "leadId": 2,
+    "type": "meeting",
+    "description": "Product demo session with technical team",
+    "date": "2024-01-22T16:30:00Z",
+    "duration": 60
+  },
+  {
+    "Id": 4,
+    "leadId": 2,
+    "type": "email",
+    "description": "Proposal sent with custom integration details",
+    "date": "2024-01-22T18:00:00Z",
+    "duration": 0
+  },
+  {
+    "Id": 5,
+    "leadId": 4,
+    "type": "call",
+    "description": "Follow-up call after trade show meeting",
+    "date": "2024-01-19T15:45:00Z",
+    "duration": 25
+  },
+  {
+    "Id": 6,
+    "leadId": 4,
+    "type": "note",
+    "description": "Confirmed budget and decision timeline",
+    "date": "2024-01-19T16:00:00Z",
+    "duration": 0
+  },
+  {
+    "Id": 7,
+    "leadId": 5,
+    "type": "call",
+    "description": "Contract negotiation and final terms discussion",
+    "date": "2024-01-21T12:00:00Z",
+    "duration": 45
+  },
+  {
+    "Id": 8,
+    "leadId": 5,
+    "type": "email",
+    "description": "Signed contract received and processed",
+    "date": "2024-01-21T14:30:00Z",
+    "duration": 0
+  },
+  {
+    "Id": 9,
+    "leadId": 6,
+    "type": "call",
+    "description": "Final attempt to address pricing concerns",
+    "date": "2024-01-18T10:30:00Z",
+    "duration": 20
+  },
+  {
+    "Id": 10,
+    "leadId": 6,
+    "type": "email",
+    "description": "Received notification they chose competitor",
+    "date": "2024-01-18T11:00:00Z",
+    "duration": 0
+  },
+  {
+    "Id": 11,
+    "leadId": 7,
+    "type": "call",
+    "description": "Qualification call to understand needs",
+    "date": "2024-01-20T09:30:00Z",
+    "duration": 35
+  },
+  {
+    "Id": 12,
+    "leadId": 7,
+    "type": "email",
+    "description": "Analytics feature documentation sent",
+    "date": "2024-01-20T11:15:00Z",
+    "duration": 0
+  },
+  {
+    "Id": 13,
+    "leadId": 8,
+    "type": "meeting",
+    "description": "Requirements gathering session",
+    "date": "2024-01-21T13:15:00Z",
+    "duration": 90
+  },
+  {
+    "Id": 14,
+    "leadId": 8,
+    "type": "note",
+    "description": "Preparing custom proposal with multi-year pricing",
+    "date": "2024-01-21T15:00:00Z",
+    "duration": 0
+  },
+  {
+    "Id": 15,
+    "leadId": 9,
+    "type": "call",
+    "description": "Introduction call and needs assessment",
+    "date": "2024-01-21T11:45:00Z",
+    "duration": 20
+  }
+]
