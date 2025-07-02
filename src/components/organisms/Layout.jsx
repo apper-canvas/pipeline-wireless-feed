@@ -1,16 +1,19 @@
 import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import ApperIcon from "@/components/ApperIcon";
 
 const Layout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [taskSidebarOpen, setTaskSidebarOpen] = useState(false)
+  const location = useLocation()
+  
   const navigationItems = [
-    { name: 'Pipeline', href: '/', icon: 'BarChart3', current: true },
-    { name: 'Leads', href: '/leads', icon: 'Users', current: false },
-    { name: 'Analytics', href: '/analytics', icon: 'TrendingUp', current: false },
-    { name: 'Reports', href: '/reports', icon: 'FileText', current: false },
-    { name: 'Settings', href: '/settings', icon: 'Settings', current: false },
+    { name: 'Pipeline', href: '/', icon: 'BarChart3' },
+    { name: 'Leads', href: '/leads', icon: 'Users' },
+    { name: 'Analytics', href: '/analytics', icon: 'TrendingUp' },
+    { name: 'Reports', href: '/reports', icon: 'FileText' },
+    { name: 'Settings', href: '/settings', icon: 'Settings' },
   ]
 
   return (
@@ -44,19 +47,19 @@ const Layout = ({ children }) => {
             </div>
             
             <nav className="space-y-2">
-              {navigationItems.map((item) => (
-                <a
+{navigationItems.map((item) => (
+                <Link
                   key={item.name}
-                  href={item.href}
+                  to={item.href}
                   className={`flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    item.current
+                    location.pathname === item.href
                       ? 'bg-primary-100 text-primary-700'
                       : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                   }`}
                 >
                   <ApperIcon name={item.icon} className="h-5 w-5" />
                   <span>{item.name}</span>
-                </a>
+                </Link>
               ))}
             </nav>
           </div>
@@ -74,19 +77,19 @@ const Layout = ({ children }) => {
           </div>
           
           <nav className="space-y-2">
-            {navigationItems.map((item) => (
-              <a
+{navigationItems.map((item) => (
+              <Link
                 key={item.name}
-                href={item.href}
+                to={item.href}
                 className={`flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  item.current
+                  location.pathname === item.href
                     ? 'bg-primary-100 text-primary-700'
-: 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                    : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                 }`}
               >
                 <ApperIcon name={item.icon} className="h-5 w-5" />
                 <span>{item.name}</span>
-              </a>
+              </Link>
             ))}
           </nav>
         </div>
