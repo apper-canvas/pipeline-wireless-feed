@@ -1,11 +1,10 @@
 import leadData from "@/services/mockData/leads.json";
-import React from "react";
 
 // Simulate API delay
-const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 // In-memory storage for demo purposes
-let leads = [...leadData]
+let leads = [...leadData];
 
 export const getAll = async () => {
   await delay(300)
@@ -51,9 +50,8 @@ export const update = async (id, leadData) => {
     Id: parseInt(id) // Ensure Id remains integer
   }
   
-  leads[leadIndex] = updatedLead
+leads[leadIndex] = updatedLead
   return { ...updatedLead }
-return { ...updatedLead }
 }
 
 export const deleteById = async (id) => {
@@ -65,4 +63,5 @@ export const deleteById = async (id) => {
   }
   
   leads.splice(leadIndex, 1)
-  return true
+  return true;
+};
